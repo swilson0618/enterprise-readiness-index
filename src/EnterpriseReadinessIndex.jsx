@@ -255,46 +255,20 @@ export default function EnterpriseReadinessIndex() {
     setEmailError("");
     setSubmitted(true);
 
-    // ── Kit API integration ──────────────────────────────────────
-    const KIT_API_KEY = "FOjhYoeu8fYNntX27W1gkFlAwHZuo_8v57xFrxwPsjY";
-    const KIT_FORM_ID = "9335523";
-
+    // ── Kit API via serverless proxy ────────────────────────────
     try {
-      // 1. Subscribe to form with custom fields
-      await fetch(`https://api.convertkit.com/v3/forms/${KIT_FORM_ID}/subscribe`, {
+      await fetch("/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          api_key: KIT_API_KEY,
           email,
-          fields: {
-            operational_stage: stage.label,
-            overall_score: `${overallPct}%`,
-          },
+          stage: stage.label,
+          score: `${overallPct}%`,
         }),
       });
-
-      // 2. Tag subscriber with stage and source
-      const tagNames = ["enterprise-readiness-index", `stage: ${stage.label.toLowerCase()}`];
-      for (const tagName of tagNames) {
-        const tagRes = await fetch(`https://api.convertkit.com/v3/tags`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ api_secret: KIT_API_KEY, name: tagName }),
-        });
-        const tagData = await tagRes.json();
-        const tagId = tagData?.tag?.id;
-        if (tagId) {
-          await fetch(`https://api.convertkit.com/v3/tags/${tagId}/subscribe`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ api_secret: KIT_API_KEY, email }),
-          });
-        }
-      }
     } catch (err) {
       // Fail silently — never block user from seeing results
-      console.error("Kit API error:", err);
+      console.error("Subscribe error:", err);
     }
 
     setScreen("results");
