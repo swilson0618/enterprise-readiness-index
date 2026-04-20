@@ -331,7 +331,7 @@ export default function EnterpriseReadinessIndex() {
             Most mid-market companies have outgrown their startup roots, but are just starting the infrastructure of a true enterprise. This is a natural stage within a growing business.
           </p>
           <p style={{ fontSize: 15, color: "#333", lineHeight: 1.7, marginBottom: 28 }}>
-            This assessment maps your operational readiness across <strong style={{ color: BRAND.navy }}>six domains</strong> in under 10 minutes. You'll see exactly where your infrastructure is solid, and where it's still living in people's heads.
+            This assessment maps your operational readiness across <strong style={{ color: BRAND.navy }}>six domains</strong> in under 4 minutes. You'll see exactly where your infrastructure is solid, and where it's still living in people's heads.
           </p>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 32 }}>
             {domains.map(d => (
@@ -342,7 +342,7 @@ export default function EnterpriseReadinessIndex() {
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
             <button style={btnPrimary} onClick={() => setScreen("question")}>Start the Assessment →</button>
-            <span style={{ fontSize: 12, color: "#999" }}>18 questions · ~8 minutes</span>
+            <span style={{ fontSize: 12, color: "#999" }}>18 questions · ~4 minutes</span>
           </div>
         </div>
       </div>
