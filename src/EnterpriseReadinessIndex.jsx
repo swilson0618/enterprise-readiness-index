@@ -233,6 +233,17 @@ export default function EnterpriseReadinessIndex() {
 
   function handleAnswer(val) {
     setSelected(val);
+    // Auto-advance after 400ms so the selection is visible before moving on
+    setTimeout(() => {
+      const newAnswers = { ...answers, [q.id]: val };
+      setAnswers(newAnswers);
+      setSelected(null);
+      if (current + 1 < questions.length) {
+        setCurrent(current + 1);
+      } else {
+        setScreen("summary");
+      }
+    }, 400);
   }
 
   function handleNext() {
@@ -257,7 +268,7 @@ export default function EnterpriseReadinessIndex() {
 
     // ── Kit API via serverless proxy ────────────────────────────
     try {
-      await fetch("/api/subscribe", {
+      await fetch("https://enterprise-readiness-index.vercel.app/api/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
