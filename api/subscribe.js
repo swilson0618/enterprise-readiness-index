@@ -8,7 +8,7 @@ export default async function handler(req, res) {
 
   const { email, stage, score } = req.body;
 
-  const KIT_API_KEY = "FOjhYoeu8fYNntX27W1gkFlAwHZuo_8v57xFrxwPsjY";
+  const KIT_API_SECRET = "FOjhYoeu8fYNntX27W1gkFlAwHZuo_8v57xFrxwPsjY";
   const KIT_FORM_ID = "9335523";
 
   try {
@@ -18,7 +18,7 @@ export default async function handler(req, res) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          api_key: KIT_API_KEY,
+          api_secret: KIT_API_SECRET,
           email,
           fields: {
             operational_stage: stage,
@@ -29,8 +29,10 @@ export default async function handler(req, res) {
     );
 
     const data = await response.json();
+    console.log("Kit response:", JSON.stringify(data));
     return res.status(200).json(data);
   } catch (err) {
+    console.error("Kit error:", err.message);
     return res.status(500).json({ error: err.message });
   }
 }
